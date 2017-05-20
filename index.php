@@ -7,6 +7,7 @@
 <?php
 require_once 'header.php'; 
 require_once 'dbConn.php';
+require      'pagination.php';
 ?>
 
 <!--HEADER'S END-->
@@ -23,7 +24,7 @@ require_once 'dbConn.php';
                 </div>
             <div class="col-md-8">
                 <?php
-                $getData="SELECT*FROM news ";
+                $getData="SELECT*FROM news  LIMIT $start, $news_limit_onpage";
                 $result=mysqli_query($dbc,$getData);
                 while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
                 $newsID = $row['news_id'];
@@ -96,6 +97,11 @@ require_once 'dbConn.php';
                     <div class="col-md-8" style="text-align: center;">
                         <div class="container">
                             <ul class="pagination">
+                                <?php 
+                                echo $pagination;
+                                ?>
+                                
+                                <!--
                                 <li class="disabled"><a href="#">«</a></li>
                                 <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
                                 <li><a href="#">2</a></li>
@@ -103,6 +109,7 @@ require_once 'dbConn.php';
                                 <li><a href="#">4</a></li>
                                 <li><a href="#">5</a></li>
                                 <li><a href="#">»</a></li>
+                                -->
                             </ul>
                         </div>
                     </div>

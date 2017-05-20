@@ -23,6 +23,8 @@
         }
     </style>
     
+    <title>-- Latest movie news --</title>
+    
     </head>
         
     
@@ -31,7 +33,7 @@
 <!--    HORIZONTAL NAVIGATION CODE:-->
    <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid fds">
-        <div class="navbar-header"><a class="navbar-brand" href="index.php">INDEX</a>
+        <div class="navbar-header"><a class="navbar-brand" href="index.php">Movie Land</a>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
             </button>
         </div>
