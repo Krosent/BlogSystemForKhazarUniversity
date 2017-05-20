@@ -41,7 +41,7 @@
 
     <div class="footer-bottom">
         <div class="container">
-            <p class="pull-left"> Copyright © 2017, Aysel Abdullayeva. <br> All rights reserved.</p>
+            <p class="pull-left"> Copyright © 2017, Artyom Kuznetsov. <br> All rights reserved.</p>
             <div class="pull-right">
                 <ul class="nav nav-pills payments">
                     <li><i class="fa fa-cc-visa"></i></li>
