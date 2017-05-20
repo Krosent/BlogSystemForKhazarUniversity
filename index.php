@@ -24,7 +24,8 @@ require      'pagination.php';
                 </div>
             <div class="col-md-8">
                 <?php
-                $getData="SELECT*FROM news  LIMIT $start, $news_limit_onpage";
+                
+                $getData="SELECT*FROM news LIMIT $start, $news_limit_onpage";
                 $result=mysqli_query($dbc,$getData);
                 while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
                 $newsID = $row['news_id'];
@@ -74,9 +75,10 @@ require      'pagination.php';
                     <div class="col-xs-12">
                         <ul id="demo3" style="height: auto; list-style-type:none;">
                             <?php
-                                 $getLastNews="SELECT*FROM news DESC LIMIT 10";
-                                 $run=mysqli_query($dbc,$getData);
-                                 while($row=mysqli_fetch_array($run,MYSQLI_ASSOC)){
+                                 $getLastNews="SELECT*FROM news LIMIT 5";
+                                
+                                 $run_last_news=mysqli_query($dbc,$getLastNews);
+                                 while($row=mysqli_fetch_array($run_last_news,MYSQLI_ASSOC)){
                                             echo '<li class="news-item"><span class="glyphicon glyphicon-star"></span> '.$row['news_title'].'<a href="full_news.php?news_id=' . 
                                                 $newsID . '">' . "  Read more...</a></li><br>";
                                             
