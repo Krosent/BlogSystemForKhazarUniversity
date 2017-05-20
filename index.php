@@ -33,14 +33,14 @@ require_once 'header.php';
                 <a  href="full_news.php?news_id=<?php echo $newsID; ?>"><h2><?php echo $row['news_title']; ?></h2></a>
     <p><?php echo $row['news_short_description']; ?></p>
     <div>
-<span class="badge">Posted <?php echo $row["news_published_on"]; ?></span><div class="pull-right">
+<span class="label label-danger">Posted on: <?php echo $row["news_published_on"]; ?></span><div class="pull-right">
 
         <?php   
                  
                     $getPost="SELECT tag_title FROM tag, post, news WHERE post.tag_id = tag.tag_id AND news.news_id = post.news_id AND post.news_id = '$newsID' ";
                     $res=mysqli_query($dbc,$getPost);
                     while($r=mysqli_fetch_array($res,MYSQLI_ASSOC)){ 
-                    echo '<span class="label label-default">'. $r['tag_title']  .'</span>' . ' ';
+                    echo '<span class="label label-danger">'. $r['tag_title']  .'</span>' . ' ';
                     }
         ?>
 
