@@ -30,7 +30,11 @@
 
     if($current_page == 1) {
         $pagination .= '<li class="disabled"><a href="#">«</a></li>';
-        for($i = 1; $i<=$pages_limit_row; $i++) {
+        if($total_pages<4) {
+            
+        }
+        if($total_pages <4){
+             for($i = 1; $i<=$total_pages; $i++) {
              if($i == $current_page) {
                   $pagination .= '<li class="active"><a href="?page=' . $i . '">' . $i . '</a></li>';
              } else{ 
@@ -38,6 +42,18 @@
              }
             
         }
+        }
+        else{ 
+         for($i = 1; $i<=$pages_limit_row; $i++) {
+             if($i == $current_page) {
+                  $pagination .= '<li class="active"><a href="?page=' . $i . '">' . $i . '</a></li>';
+             } else{ 
+             $pagination .= '<li><a href="?page=' . $i . '">' . $i . '</a></li>';
+             }
+            
+        }
+        }
+       
         
           $pagination .= '<li class=""><a href="?page=' . $last_page . '">»</a></li>';
     }
