@@ -8,6 +8,9 @@
 require_once 'header.php'; 
 require_once 'dbConn.php';
 require      'pagination.php';
+    
+ 
+    
 ?>
 
 <!--HEADER'S END-->
@@ -17,36 +20,86 @@ require      'pagination.php';
 <!--    NEWS BLOCK AND RIGHT COLUMN BLOCK    -->
         
         <div class="container-fluid" style="margin-top: 10px;">
-            <div class="container-fluid row">
-                <div class="col-md-12">
-                    <legend class="text-center"> <h1>Latest News:</h1></legend>
-     
+        <div class="container-fluid row">
+            <div class="col-md-12">
+            <legend class="text-center"> <h1>Latest News:</h1></legend>
+            </div>
+            <?php
+            if(isset($_GET['tag'])){
+                $tag_id=$_GET['tag'];
+                ?>
+                <div class="col-md-8">
+                    <?php
+                        $getData="SELECT*FROM news,post WHERE
+                        news.news_id=post.news_id AND tag_id=$tag_id LIMIT $start,$news_limit_onpage" ;
+                        $result=mysqli_query($dbc,$getData);
+                        if(mysqli_num_rows($result) > 0){
+                        while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                            $newsID=$row['news_id'];
+                            ?>
+                        <a  href="full_news.php?news_id=<?php echo $newsID; ?>"><h2><?php echo $row['news_title']; ?></h2></a>
+                        <p><?php echo $row['news_short_description']; ?></p>
+                        <div>
+                        <span class="badge">Posted <?php echo $row["news_published_on"]; ?></span><div class="pull-right">
+
+        <?php   
+                 
+                    $getPost="SELECT tag_title FROM tag, post, news WHERE post.tag_id = tag.tag_id AND news.news_id = post.news_id AND post.news_id = '$newsID' ";
+                    $res=mysqli_query($dbc,$getPost);
+                    while($r=mysqli_fetch_array($res,MYSQLI_ASSOC)){ 
+                    echo '<span class="label label-default">'. $r['tag_title']  .'</span>' . ' ';
+                    }
+        ?>
+
+        
+      </div>         
+     </div>
+    <hr>
+                      <?php
+                        }
+            }
+                ?>
+                
                 </div>
+            
+            
+            <?php
+            }else{
+            ?>
+            
             <div class="col-md-8">
                 <?php
-                
-                $getData="SELECT*FROM news LIMIT $start, $news_limit_onpage";
-                $result=mysqli_query($dbc,$getData);
-                while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
-                $newsID = $row['news_id'];
+                 $getData="SELECT*FROM news ORDER BY news_id DESC LIMIT  $start, $news_limit_onpage";
+                 $result=mysqli_query($dbc,$getData);
+                 if(mysqli_num_rows($result) > 0){
+                 while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                       $newsID = $row['news_id'];
                 ?>
                 
                 <a  href="full_news.php?news_id=<?php echo $newsID; ?>"><h2><?php echo $row['news_title']; ?></h2></a>
                 <p><?php echo $row['news_short_description']; ?></p>
-                    <div>
-                        <span class="label label-danger">Posted on: <?php echo $row["news_published_on"]; ?></span><div class="pull-right">
-                        <?php   
-                        $getPost="SELECT tag_title FROM tag, post, news WHERE post.tag_id = tag.tag_id AND news.news_id = post.news_id AND post.news_id = '$newsID' ";
-                        $res=mysqli_query($dbc,$getPost);
-                        while($r=mysqli_fetch_array($res,MYSQLI_ASSOC)){ 
-                        echo '<span class="label label-danger">'. $r['tag_title']  .'</span>' . ' ';
-                        }
-                    ?>
+                <div>
+                <span class="badge">Posted <?php echo $row["news_published_on"]; ?></span><div class="pull-right">
+
+        <?php   
+                 
+                    $getPost="SELECT tag_title FROM tag, post, news WHERE post.tag_id = tag.tag_id AND news.news_id = post.news_id AND post.news_id = '$newsID' ";
+                    $res=mysqli_query($dbc,$getPost);
+                    while($r=mysqli_fetch_array($res,MYSQLI_ASSOC)){ 
+                    echo '<span class="label label-default">'. $r['tag_title']  .'</span>' . ' ';
+                    }
+        ?>
 
         
-                        </div>         
-                    </div>
-                    <hr>
+      </div>         
+     </div>
+    <hr>
+                   
+                    <?php
+                    }
+                 }
+                    ?>
+                 </div>
                 <?php
                 }
                 
@@ -64,7 +117,7 @@ require      'pagination.php';
     </div>     
     <hr>
 -->
-</div>
+
             
             
 <div class="col-md-4">
@@ -78,11 +131,12 @@ require      'pagination.php';
                                  $getLastNews="SELECT*FROM news LIMIT 5";
                                 
                                  $run_last_news=mysqli_query($dbc,$getLastNews);
+                                 if(isset($newsID)){
                                  while($row=mysqli_fetch_array($run_last_news,MYSQLI_ASSOC)){
                                             echo '<li class="news-item"><span class="glyphicon glyphicon-star"></span> '.$row['news_title'].'<a href="full_news.php?news_id=' . 
                                                 $newsID . '">' . "  Read more...</a></li><br>";
                                             
-                                            
+                                 }      
                                  }
                             
                             ?>
@@ -92,39 +146,41 @@ require      'pagination.php';
                     </div>
                 </div>
         </div>
-        <div class="panel-footer"> </div>
+    <div class="panel-footer"> </div>
     </div>
-            </div>
-            
-                    <div class="col-md-8" style="text-align: center;">
+</div>
+            <?php
+            if(!isset($_GET['tag'])){
+            ?>
+                  <div class="col-md-8" style="text-align: center;">
                         <div class="container">
                             <ul class="pagination">
                                 <?php 
                                 echo $pagination;
                                 ?>
-                                
-                                <!--
-                                <li class="disabled"><a href="#">«</a></li>
-                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">»</a></li>
-                                -->
                             </ul>
                         </div>
                     </div>
-            </div>
-    </div>
+
+                    <?php
+            }
+                    ?>
+
+
+                  </div>
+                  </div>
+        
 <!--        END HERE:-->
+
+    
+
 
 <!--    FOOTER BEGINS:-->
 <?php
 require_once 'footer.php';
 ?>
-    
 <!--    FOOTER ENDS-->
+    
 </html>
   
   

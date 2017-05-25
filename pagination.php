@@ -21,59 +21,56 @@
     else { $current_page = 1; }
 
 // Set prev and next variables, $start variable as well :3
-
-
-    
     $start =  ($current_page - 1) * $news_limit_onpage; // OFSET
     $prev_page =  (int) $current_page - 1;
     $next_page =  (int) $current_page + 1;
 
-    if($current_page == 1) {
+
+
+    if($current_page == 1) { // If we are at the begining of pagination
         $pagination .= '<li class="disabled"><a href="#">«</a></li>';
-        if($total_pages<4) {
-            
-        }
-        if($total_pages <4){
+        
+    /////////    
+        if($total_pages <4){ // If total pages less than four
              for($i = 1; $i<=$total_pages; $i++) {
              if($i == $current_page) {
                   $pagination .= '<li class="active"><a href="?page=' . $i . '">' . $i . '</a></li>';
              } else{ 
-             $pagination .= '<li><a href="?page=' . $i . '">' . $i . '</a></li>';
+                  $pagination .= '<li class=""><a href="?page=' . $i . '">' . $i . '</a></li>';
              }
-            
-        }
-        }
-        else{ 
-         for($i = 1; $i<=$pages_limit_row; $i++) {
-             if($i == $current_page) {
-                  $pagination .= '<li class="active"><a href="?page=' . $i . '">' . $i . '</a></li>';
-             } else{ 
-             $pagination .= '<li><a href="?page=' . $i . '">' . $i . '</a></li>';
              }
-            
-        }
-        }
-       
+                   $pagination .= '<li class="disabled"><a href="?page=' . $last_page . '">»</a></li>';
+             }
+            else{  // If more than 4 pages, then we use limit boundries
+             for($i = 1; $i<=$pages_limit_row; $i++) {
+                 if($i == $current_page) {
+                      $pagination .= '<li class="active"><a href="?page=' . $i . '">' . $i . '</a></li>';
+                 } else{ 
+                 $pagination .= '<li><a href="?page=' . $i . '">' . $i . '</a></li>';
+                 }
+
+            }
+                 $pagination .= '<li class=""><a href="?page=' . $last_page . '">»</a></li>';
+            }
+              
+            }
+    ///// If there is no data from the database - show disabled pagination
+    elseif($total_pages == 0) {
+        $pagination .= '<li class="disabled"><a href="#">«</a></li>';
+        $pagination .= '<li class="disabled"><a href="#">»</a></li>';
         
-          $pagination .= '<li class=""><a href="?page=' . $last_page . '">»</a></li>';
     }
-    
-    elseif($current_page == $total_pages) {
-        $pagination .= '<li class=""><a href="?page=' . $first_page . '">«</a></li>';
-         for($i = $pages_limit_row; $i<=$total_pages; $i++) {
-             if($i == $current_page) {
-                    $pagination .= '<li class="active"><a href="?page=' . $i . '">' . $i . '</a></li>';
-             } else{ 
-                    $pagination .= '<li><a href="?page=' . $i . '">' . $i . '</a></li>';
-             }
-            
-            
-             
+
+        /////////
+    elseif($current_page == $total_pages) { // If we are at the end of pagination
+        $pagination .= '<li class=""><a href="?page=' . $prev_page . '">«</a></li>';
+        $pagination .= '<li class="active"><a href="?page=' . $current_page . '">' . $current_page . '</a></li>';
+        $pagination .= ' <li class="disabled"><a href="#">»</a></li>';         
         }
-         $pagination .= ' <li class="disabled"><a href="#">»</a></li>';
-    }
-    
-    else {
+
+
+    /////////    
+    else { // if we are in the middle of the pagination(between begining and the end)
         $pagination .= '<li class=""><a href="?page=' . $first_page . '">«</a></li>';
         for($i = $current_page-1; $i<=$current_page+1; $i++) { 
             if($i == $current_page) {
@@ -81,9 +78,7 @@
             } else {
                 $pagination .= '<li><a href="?page=' . $i . '">' . $i . '</a></li>';   
             }
-            
-            
-       
+ 
         }
             $pagination .= '<li class=""><a href="?page=' . $last_page . '">»</a></li>';
     }

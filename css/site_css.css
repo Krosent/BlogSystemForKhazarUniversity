@@ -118,7 +118,7 @@ divider-vertical {
   .intro-header .site-heading,
   .intro-header .post-heading,
   .intro-header .page-heading {
-    padding: 350px 0;
+    transform: translateY(60%);
   }
 }
 .intro-header .site-heading,
